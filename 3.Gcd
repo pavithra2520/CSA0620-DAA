@@ -1,0 +1,13 @@
+#include <stdio.h>
+int main() {
+    int num1, num2, gcd;
+    printf("Enter two integers: ");
+    scanf("%d %d", &num1, &num2);
+    while (num2 != 0) {
+        gcd = num2;
+        num2 = num1 % num2;
+        num1 = gcd;
+    }
+    printf("GCD is: %d\n", num1);
+    return 0;
+}
