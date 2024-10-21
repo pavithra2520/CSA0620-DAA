@@ -1,0 +1,54 @@
+#include <stdio.h>
+#include <limits.h>
+#define MAX 10
+int cost[MAX][MAX];
+int n;
+int bestCost = INT_MAX;
+int assignment[MAX];
+int bestAssignment[MAX];
+void branchAndBound(int mask, int worker, int currentCost) {
+    if (worker == n) {
+        if (currentCost < bestCost) {
+            bestCost = currentCost;
+            for (int i = 0; i < n; i++) {
+                bestAssignment[i] = assignment[i];
+            }
+        }
+        return;
+    }
+    for (int job = 0; job < n; job++) {
+        if (!(mask & (1 << job))) {
+            assignment[worker] = job;
+            branchAndBound(mask | (1 << job), worker + 1, currentCost + cost[worker][job]);
+        }
+    }
+}
+int main() {
+    printf("Enter the number of jobs (and workers): ");
+    scanf("%d", &n);
+    if (n > MAX) {
+        printf("Number of workers/jobs exceeds the maximum limit of %d.\n", MAX);
+        return 1;
+    }
+    printf("Enter the cost matrix (%d x %d):\n", n, n);
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            scanf("%d", &cost[i][j]);
+            if (cost[i][j] < 0) {
+                printf("Cost cannot be negative. Please enter valid costs.\n");
+                return 1;
+            }
+        }
+    }
+    branchAndBound(0, 0, 0);
+    if (bestCost == INT_MAX) {
+        printf("No valid assignment found.\n");
+    } else {
+        printf("Minimum cost: %d\n", bestCost);
+        printf("Job assignments:\n");
+        for (int i = 0; i < n; i++) {
+            printf("Worker %d assigned to Job %d\n", i + 1, bestAssignment[i] + 1);
+        }
+    }
+    return 0;
+}
