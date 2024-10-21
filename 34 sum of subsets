@@ -18,7 +18,7 @@ void findSubsets(int arr[], int n, int index, int currentSum, int targetSum, int
 int main() {
     int arr[] = {3, 34, 4, 12, 5, 2};
     int n = sizeof(arr) / sizeof(arr[0]);
-    int targetSum = 9; // Target sum for subsets
+    int targetSum = 9; 
     int subset[n]; 
     printf("Subsets with sum %d:\n", targetSum);
     findSubsets(arr, n, 0, 0, targetSum, subset, 0);
